@@ -40,15 +40,28 @@ void polynomialIntersectionByConstans (float *poly, float con)
 }
 
 
+void polynomialDerivative (float *poly)
+{
+  
+}
+
+
+float polynomialResult (float *poly, float value)
+{
+  float result;
+
+  return result;
+}
+
 int main()
 {
   printf("\nUstalić naturalną n_max. Wczytać n  z zakresu '0 - n_max'  oraz różne\n");
   printf("węzły x[0], x[1], ..., x[n] i dowolne wartości f[0], f[1], ..., f[n].\n");
   printf("Wielomian  interpolacyjny  w  postaci  Lagrange'a  L = L(x)  taki, że\n");
   printf("L(x[i]) = f[i] dla i = 0, 1, ..., n,  przedstawić w postaci  ogólnej.\n");
-  printf("Następnie,   \"dopóki  użytkownik  się  nie  znudzi\",   wczytywać  'j'\n");
+  printf("Następnie,   \"dopóki  użytkownik  się  nie  znudzi\",   wczytywać  's'\n");
   printf("z zakresu '0 - n' oraz 't'  należace  do zbioru  liczb  rzeczywistych\n");
-  printf("i obliczać pochodne dla L(t) stopnia 'j'.\n\n");
+  printf("i obliczać pochodne dla W(t) stopnia 's'.\n\n");
 
   int nMax = 100,
       guard = 1,
@@ -56,7 +69,7 @@ int main()
   
   while (n < 0 || n > nMax)
   {
-    printf("Podaj n z zakresu '0 - %i':\n", nMax);
+    printf("Podaj 'n' z zakresu '0 - %i':\n", nMax);
     printf("n = ");
     scanf("%i", &n);
     printf("\n");
@@ -79,8 +92,6 @@ int main()
     scanf("%f", &f[i]);
     printf("\n");
   }
-
-  printf("\n");
 
   for (i = 0; i <= n; i++)
   {
@@ -139,7 +150,40 @@ int main()
 
   if (guard == 1) printf("0");
 
-  printf("\n\n");
+  printf("\n");
 
-  return 0;
+  int choice, s = -1;
+  float t;
+
+  while (1)
+  {
+    printf("\n1 - Oblicz pochodną dla W(t) stopnia 'j'\n");
+    printf("2 - Zakończ program\n");
+    printf("Twój wybór: ");
+    scanf("%i", &choice);
+
+    switch (choice)
+    {
+      case 1:
+        while(s < 0 || s > n)
+        {
+          printf("\nPodaj 's' z zakresu '0 - %i':\ns = ", n);
+          scanf("%i", &s);
+        }
+
+        printf("Podaj 't' należące do zbioru liczb rzeczywistych:\nt = ");
+        scanf("%f", &t);
+
+        for (i = 0; i < s; i++) polynomialDerivative(W);
+        //result = polynomialResult(W, t);
+        
+        //printf("\nPochodna dla W(%f) stopnia '%i' wynosi: %f\n", t, s, result);
+
+        break;
+
+      case 2:
+        printf("\n");
+        return 0;
+    }
+  }
 }
