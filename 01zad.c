@@ -40,13 +40,11 @@ void polynomialIntersectionByConstans (float *poly, float con)
 }
 
 
-void polynomialDerivative (float *poly)
+void polynomialDerivative (float *poly1, float *poly2)
 {
   int i;
 
-  for (i = 1; i <= n; i++) poly[i - 1] = poly[i] * i;
-
-  poly[i - 1] = 0;
+  for (i = 1; i <= n; i++) poly1[i - 1] = poly2[i] * i;
 }
 
 
@@ -121,6 +119,7 @@ int main()
         divisor[n + 1],
         H[n + 1][2],
         L[n + 1][n + 1],
+        polyH[n + 1],
         W[n + 1];
 
   printf("   Podaj dane (każda wartość dla 'x' musi być różna od siebie):\n");
@@ -165,6 +164,7 @@ int main()
     
     H[i][0] = x[i] * -1;
     H[i][1] = 1;
+    polyH[i] = 0;
     W[i] = 0;
   }
 
@@ -214,14 +214,26 @@ int main()
         printf("   Podaj 't' należące do zbioru liczb rzeczywistych:\n   t = ");
         scanf("%f", &t);
 
-        for (i = 0; i < s; i++) polynomialDerivative(W);
+        for (i = 0; i < s; i++)
+        {
+          if (i == 0) polynomialDerivative(polyH, W);
+          else polynomialDerivative(polyH, polyH);
+        }
         
         printf("\n   Pochodna dla W(x) stopnia '%i' wynosi:\n   ", i);
-        polynomialPrint(W);
-        printf("\n");
-        result = polynomialResult(W, t);
         
-        printf("\n   Pochodna dla W(%f) stopnia '%i' wynosi:\n   %f\n", t, s, result);
+        if (s == 0)
+        {
+          polynomialPrint(W);
+          result = polynomialResult(W, t);
+        }
+        else
+        {
+          polynomialPrint(polyH);
+          result = polynomialResult(polyH, t);
+        }
+        
+        printf("\n\n   Pochodna dla W(%f) stopnia '%i' wynosi:\n   %f\n", t, s, result);
 
         break;
 
