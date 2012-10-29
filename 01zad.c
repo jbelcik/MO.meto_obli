@@ -34,7 +34,9 @@ int main()
   printf("z zakresu '0 - n' oraz 't'  należace  do zbioru  liczb  rzeczywistych\n");
   printf("i obliczać pochodne dla L(t) stopnia 'j'.\n\n");
 
-  int nMax = 100, i, j;
+  int nMax = 100,
+      guard = 1,
+      i, j;
   
   while (n < 0 || n > nMax)
   {
@@ -93,12 +95,28 @@ int main()
   }
 
   printf("W = ");
+
   for (i = n; i > 0; i--)
   {
-    if (W[i] != 0) printf("%fx^%i ", W[i], i);
+    if (W[i] != 0)
+    {
+      guard = 0;
+
+      if (W[i - 1] != 0 && W[i] >= 0) printf("+");
+      printf("%fx^%i ", W[i], i);
+    }
   }
   
-  if (W[0] != 0) printf("%f", W[0]);
+  if (W[0] != 0)
+  {
+    guard = 0;
+
+    if (W[i] >= 0) printf("+");
+    printf("%f", W[0]);
+  }
+
+  if (guard == 1) printf("0");
+
   printf("\n");
 
   return 0;
