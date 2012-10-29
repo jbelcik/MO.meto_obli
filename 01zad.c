@@ -6,13 +6,29 @@ int n = -1;
 
 void polynomialUnion (float *poly1, float *poly2)
 {
-  
+  int i;
+
+  for (i = 0; i <= n; i++) poly1[i] += poly2[i];
 }
 
 
 void polynomialIntersection (float *poly1, float *poly2)
 {
-  
+  int i;
+  float polyH[2][n + 1];
+
+  for (i = 0; i <= n; i++)
+  {
+    polyH[0][i] = poly2[0] * poly1[i];
+    polyH[1][i + 1] = poly2[1] * poly1[i];
+  }
+
+  polynomialUnion(polyH[0], polyH[1]);
+
+  for (i = 0; i <= n; i++)
+  {
+    poly1[i] = polyH[0][i];
+  }
 }
 
 
@@ -40,7 +56,7 @@ int main()
   
   while (n < 0 || n > nMax)
   {
-    printf("Podaj n z zakresu '0 - %i'\n", nMax);
+    printf("Podaj n z zakresu '0 - %i':\n", nMax);
     printf("n = ");
     scanf("%i", &n);
     printf("\n");
@@ -53,19 +69,25 @@ int main()
         L[n + 1][n + 1],
         W[n + 1];
 
+  printf("Podaj dane:\n");
+
   for (i = 0; i <= n; i++)
   {
-    printf("(x[%i], f[%i]) = \n", i, i);
+    printf("x[%i] = ", i);
     scanf("%f", &x[i]);
+    printf("f[%i] = ", i);
     scanf("%f", &f[i]);
+    printf("\n");
   }
+
+  printf("\n");
 
   for (i = 0; i <= n; i++)
   {
     for (j = 0; j <= n; j++)
     {
-      if (j > 1) H[i][j] = 0;
-      L[i][j] = 0;
+      if (j == 0) L[i][j] = 1;
+      else L[i][j] = 0;
     }
     
     H[i][0] = x[i] * -1;
@@ -79,8 +101,6 @@ int main()
 
     for (j = 0; j <= n; j++)
     {
-      //printf("H[%i][%i] = %f\n", i, j, H[i][j]);
-      //printf("L[%i][%i] = %f\n\n", i, j, L[i][j]);
       if (j != i)
       {
         divisor[i] *= 1 / (x[i] - x[j]);
@@ -88,36 +108,38 @@ int main()
       }
     }
 
-    //printf("\ndivisor[%i] = %f\n", i, divisor[i]);
-    //printf("W[%i] = %f\n\n\n", i, W[i]);
     polynomialIntersectionByConstans(L[i], divisor[i] * f[i]);
     polynomialUnion(W, L[i]);
   }
 
-  printf("W = ");
+  printf("Postać ogólna wyliczonego wielomianu:\nW = ");
 
-  for (i = n; i > 0; i--)
+  for (i = n; i >= 0; i--)
   {
     if (W[i] != 0)
     {
       guard = 0;
 
-      if (W[i - 1] != 0 && W[i] >= 0) printf("+");
-      printf("%fx^%i ", W[i], i);
+      if (W[i] > 0 && i + 1 <= n && W[i + 1] != 0) printf("+");
+      if (i == 0) printf("%f ", W[i]);
+      else if (i == 1)
+      {
+        if (W[i] == 1) printf("x ");
+        else if (W[i] == -1) printf("-x ");
+        else printf("%fx ", W[i]);
+      }
+      else
+      {
+        if (W[i] == 1) printf("x^%i ", i);
+        else if (W[i] == -1) printf("-x^%i ", i);
+        else printf("%fx^%i ", W[i], i);
+      }
     }
-  }
-  
-  if (W[0] != 0)
-  {
-    guard = 0;
-
-    if (W[i] >= 0) printf("+");
-    printf("%f", W[0]);
   }
 
   if (guard == 1) printf("0");
 
-  printf("\n");
+  printf("\n\n");
 
   return 0;
 }
