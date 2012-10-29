@@ -52,7 +52,14 @@ void polynomialDerivative (float *poly)
 
 float polynomialResult (float *poly, float value)
 {
-  float result;
+  int i;
+
+  float result = poly[n];
+
+  for (i = n - 1; i >= 0; i--)
+  {
+    result = value * result + poly[i];
+  }
 
   return result;
 }
@@ -184,7 +191,7 @@ int main()
   printf("\n");
 
   int choice, s;
-  float t;
+  float t, result;
 
   while (1)
   {
@@ -212,9 +219,9 @@ int main()
         printf("\n   Pochodna dla W(x) stopnia '%i' wynosi:\n   ", i);
         polynomialPrint(W);
         printf("\n");
-        //result = polynomialResult(W, t);
+        result = polynomialResult(W, t);
         
-        //printf("\n   Pochodna dla W(%f) stopnia '%i' wynosi: %f\n", t, s, result);
+        printf("\n   Pochodna dla W(%f) stopnia '%i' wynosi:\n   %f\n", t, s, result);
 
         break;
 
