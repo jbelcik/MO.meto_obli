@@ -4,7 +4,7 @@
 int n = -1;
 
 
-void polynomialUnion (float *poly1, float *poly2)
+void polynomialUnion (double *poly1, double *poly2)
 {
   int i;
 
@@ -12,10 +12,10 @@ void polynomialUnion (float *poly1, float *poly2)
 }
 
 
-void polynomialIntersection (float *poly1, float *poly2)
+void polynomialIntersection (double *poly1, double *poly2)
 {
   int i;
-  float polyH[2][n + 1];
+  double polyH[2][n + 1];
 
   for (i = 0; i <= n; i++)
   {
@@ -32,7 +32,7 @@ void polynomialIntersection (float *poly1, float *poly2)
 }
 
 
-void polynomialIntersectionByConstans (float *poly, float con)
+void polynomialIntersectionByConstans (double *poly, double con)
 {
   int i;
 
@@ -40,7 +40,7 @@ void polynomialIntersectionByConstans (float *poly, float con)
 }
 
 
-void polynomialDerivative (float *poly1, float *poly2)
+void polynomialDerivative (double *poly1, double *poly2)
 {
   int i;
 
@@ -48,11 +48,11 @@ void polynomialDerivative (float *poly1, float *poly2)
 }
 
 
-float polynomialResult (float *poly, float value)
+float polynomialResult (double *poly, double value)
 {
   int i;
 
-  float result = poly[n];
+  double result = poly[n];
 
   for (i = n - 1; i >= 0; i--)
   {
@@ -63,7 +63,7 @@ float polynomialResult (float *poly, float value)
 }
 
 
-void polynomialPrint (float *poly)
+void polynomialPrint (double *poly)
 {
   int i, guard = 1;
 
@@ -74,18 +74,18 @@ void polynomialPrint (float *poly)
       guard = 0;
 
       if (poly[i] > 0 && i + 1 <= n && poly[i + 1] != 0) printf("+");
-      if (i == 0) printf("%f ", poly[i]);
+      if (i == 0) printf("%lf ", poly[i]);
       else if (i == 1)
       {
         if (poly[i] == 1) printf("x ");
         else if (poly[i] == -1) printf("-x ");
-        else printf("%fx ", poly[i]);
+        else printf("%lfx ", poly[i]);
       }
       else
       {
         if (poly[i] == 1) printf("x^%i ", i);
         else if (poly[i] == -1) printf("-x^%i ", i);
-        else printf("%fx^%i ", poly[i], i);
+        else printf("%lfx^%i ", poly[i], i);
       }
     }
   }
@@ -97,12 +97,12 @@ void polynomialPrint (float *poly)
 int main()
 {
   printf("\n   Ustalić naturalną n_max. Wczytać n  z zakresu '0 - n_max'  oraz różne\n");
-  printf("   węzły x[0], x[1], ..., x[n] i dowolne wartości f[0], f[1], ..., f[n].\n");
+  printf("   węzły x[0], x[1], ..., x[n] i dowolne wartości A[0], A[1], ..., A[n].\n");
   printf("   Wielomian  interpolacyjny  w  postaci  Lagrange'a  L = L(x)  taki, że\n");
   printf("   L(x[i]) = f[i] dla i = 0, 1, ..., n,  przedstawić w postaci  ogólnej.\n");
-  printf("   Następnie,   \"dopóki  użytkownik  się  nie  znudzi\",   wczytywać  's'\n");
+  printf("   Następnie,   \"dopóki  użytkownik  się  nie  znudzi\",   wczytywać  'j'\n");
   printf("   z zakresu '0 - n' oraz 't'  należace  do zbioru  liczb  rzeczywistych\n");
-  printf("   i obliczać pochodne dla W(t) stopnia 's'.\n\n");
+  printf("   i obliczać pochodne dla W(t) stopnia 'j'.\n\n");
 
   int nMax = 100, i, j, guard;
   
@@ -114,13 +114,13 @@ int main()
     printf("\n");
   }
 
-  float x[n + 1],
-        f[n + 1],
-        divisor[n + 1],
-        H[n + 1][2],
-        L[n + 1][n + 1],
-        polyH[n + 1],
-        W[n + 1];
+  double x[n + 1],
+         A[n + 1],
+         divisor[n + 1],
+         H[n + 1][2],
+         L[n + 1][n + 1],
+         polyH[n + 1],
+         W[n + 1];
 
   printf("   Podaj dane (każda wartość dla 'x' musi być różna od siebie):\n");
 
@@ -131,7 +131,7 @@ int main()
     while (guard == 1)
     {
       printf("   x[%i] = ", i);
-      scanf("%f", &x[i]);
+      scanf("%lf", &x[i]);
 
       if (i > 0)
       {
@@ -139,7 +139,7 @@ int main()
         {
           if (x[i] == x[j])
           {
-            printf("   Wartość %f dla 'x' została już wprowadzona (w x[%i]). Wprowadź inną wartość.\n\n", x[i], j);
+            printf("   Wartość %lf dla 'x' została już wprowadzona (w x[%i]). Wprowadź inną wartość.\n\n", x[i], j);
             guard = 1;
             break;
           }
@@ -149,8 +149,8 @@ int main()
       else guard = 0;
     }
 
-    printf("   f[%i] = ", i);
-    scanf("%f", &f[i]);
+    printf("   A[%i] = ", i);
+    scanf("%lf", &A[i]);
     printf("\n");
   }
 
@@ -181,21 +181,21 @@ int main()
       }
     }
 
-    polynomialIntersectionByConstans(L[i], divisor[i] * f[i]);
+    polynomialIntersectionByConstans(L[i], divisor[i] * A[i]);
     polynomialUnion(W, L[i]);
   }
 
-  printf("   Postać ogólna wyliczonego wielomianu:\n   W = ");
+  printf("   Postać ogólna wyliczonego wielomianu:\n   W(x) = ");
   polynomialPrint(W);
 
   printf("\n");
 
   int choice, s;
-  float t, result;
+  double t, result;
 
   while (1)
   {
-    printf("\n   1 - Oblicz pochodną dla W(t) stopnia 's'\n");
+    printf("\n   1 - Oblicz pochodną dla W(t) stopnia 'j'\n");
     printf("   2 - Zakończ program\n");
     printf("   Twój wybór: ");
     scanf("%i", &choice);
@@ -207,12 +207,12 @@ int main()
 
         while(s < 0 || s > n)
         {
-          printf("\n   Podaj 's' z zakresu '0 - %i':\n   s = ", n);
+          printf("\n   Podaj 'j' z zakresu '0 - %i':\n   j = ", n);
           scanf("%i", &s);
         }
 
         printf("   Podaj 't' należące do zbioru liczb rzeczywistych:\n   t = ");
-        scanf("%f", &t);
+        scanf("%lf", &t);
 
         for (i = 0; i < s; i++)
         {
@@ -233,7 +233,7 @@ int main()
           result = polynomialResult(polyH, t);
         }
         
-        printf("\n\n   Pochodna dla W(%f) stopnia '%i' wynosi:\n   %f\n", t, s, result);
+        printf("\n\n   Pochodna dla W(%lf) stopnia '%i' wynosi:\n   %lf\n", t, s, result);
 
         break;
 
