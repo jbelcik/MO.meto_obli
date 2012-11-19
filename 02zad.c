@@ -1,3 +1,6 @@
+/// gcc -Wall 02zad.c -o 02zad.o -lm
+
+
 #include <stdio.h>
 #include <math.h>
 
@@ -15,22 +18,31 @@ double equation(double x)
 }
 
 
-double bisection(double left, double right)
+double bisection(double left, double right, double epsilon)
 {
-  iB++;
+  double point;
 
-  double point = (left + right) / 2;
+  while(fabs(left - right) > epsilon)
+  {
+    iB++;
 
-  if (equation((point) == 0)) return point;
+    point = (left + right) / 2;
 
-  if (equation(point) * equation(left) < 0) bisection(left, point);
-  else bisection(point, right);
+    if (equation((point) == 0)) break;
+
+    if (equation(point) * equation(left) < 0) right = point;
+    else left = point;
+  }
+
+  return point;
 }
+
 
 void newton()
 {
   iN++;
 }
+
 
 int main()
 {
@@ -76,7 +88,7 @@ int main()
           scanf("%lf", &epsilon);
         }
 
-        printf("\n   Przybliżonym rozwiązaniem tego rownania jest wartość %lf,\n   dla metody połowienia wyliczenie rozwiązania zajęło %i kroków.\n", bisection(a, b), iB);
+        printf("\n   Przybliżonym rozwiązaniem tego rownania jest wartość %lf,\n   dla metody połowienia wyliczenie rozwiązania zajęło %i kroków.\n", bisection(a, b, epsilon), iB);
 
         break;
 
