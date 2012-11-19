@@ -35,8 +35,7 @@ double bisection(double left, double right, double epsilon)
     point = (left + right) / 2;
 
     if (equation((point) == 0)) break;
-
-    if (equation(point) * equation(left) < 0) right = point;
+    else if (equation(point) * equation(left) < 0) right = point;
     else left = point;
   }
 
@@ -44,11 +43,21 @@ double bisection(double left, double right, double epsilon)
 }
 
 
-double  newton(double epsilon)
+double newton(double left, double epsilon)
 {
-  iN++;
+  double pointPlus, point = left;
 
-  return epsilon;
+  while (1)
+  {
+    iN++;
+
+    pointPlus = point - equation(point) / equationDerivative(point);
+
+    if (fabs(point - pointPlus) <= epsilon) break;
+    else point = pointPlus;
+  }
+
+  return pointPlus;
 }
 
 
@@ -80,7 +89,7 @@ int main()
 
   while (1)
   {
-    printf("\n   1 - Przybliż rozwiazanie dla innego E");
+    printf("\n   1 - Przybliż rozwiązanie równania z dokładnością E metodą połowienia i Newtona");
     printf("\n   2 - Zakoncz program");
     printf("\n   Twoj wybor: ");
     scanf("%i", &choice);
@@ -96,8 +105,8 @@ int main()
           scanf("%lf", &epsilon);
         }
 
-        printf("\n   Metoda połowienia:\n   %.6lf - przybliżone rozwiązanie\n   %8i - ilość kroków\n", bisection(a, b, epsilon), iB);
-        printf("\n   Metoda Newtona:\n   %.6lf - przybliżone rozwiązanie\n   %8i - ilość kroków\n", newton(epsilon), iN);
+        printf("\n   Metoda połowienia:\n   %lf - przybliżone rozwiązanie\n   %i - ilość kroków\n", bisection(a, b, epsilon), iB);
+        printf("\n   Metoda Newtona:\n   %lf - przybliżone rozwiązanie\n   %i - ilość kroków\n", newton(a, epsilon), iN);
 
         iB = iN = 0;
 
