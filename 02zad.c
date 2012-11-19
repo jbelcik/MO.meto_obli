@@ -18,9 +18,15 @@ double equation(double x)
 }
 
 
+double equationDerivative(double x)
+{
+  return 3 - pow(E, x);
+}
+
+
 double bisection(double left, double right, double epsilon)
 {
-  double point;
+  double point = (left + right) / 2;
 
   while(fabs(left - right) > epsilon)
   {
@@ -38,9 +44,11 @@ double bisection(double left, double right, double epsilon)
 }
 
 
-void newton()
+double  newton(double epsilon)
 {
   iN++;
+
+  return epsilon;
 }
 
 
@@ -88,7 +96,10 @@ int main()
           scanf("%lf", &epsilon);
         }
 
-        printf("\n   Przybliżonym rozwiązaniem tego rownania jest wartość %lf,\n   dla metody połowienia wyliczenie rozwiązania zajęło %i kroków.\n", bisection(a, b, epsilon), iB);
+        printf("\n   Metoda połowienia:\n   %.6lf - przybliżone rozwiązanie\n   %8i - ilość kroków\n", bisection(a, b, epsilon), iB);
+        printf("\n   Metoda Newtona:\n   %.6lf - przybliżone rozwiązanie\n   %8i - ilość kroków\n", newton(epsilon), iN);
+
+        iB = iN = 0;
 
         break;
 
