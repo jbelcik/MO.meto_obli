@@ -34,7 +34,7 @@ double bisection(double left, double right, double epsilon)
 
     point = (left + right) / 2;
 
-    if (equation((point) == 0)) break;
+    if (equation(point) == 0) break;
     else if (equation(point) * equation(left) < 0) right = point;
     else left = point;
   }
@@ -84,7 +84,7 @@ int main()
     scanf("%lf", &b);
   }
 
-  double epsilon;
+  double epsilon, rB, rN;
   int choice;
 
   while (1)
@@ -105,8 +105,11 @@ int main()
           scanf("%lf", &epsilon);
         }
 
-        printf("\n   Metoda połowienia:\n   %lf - przybliżone rozwiązanie\n   %i - ilość kroków\n", bisection(a, b, epsilon), iB);
-        printf("\n   Metoda Newtona:\n   %lf - przybliżone rozwiązanie\n   %i - ilość kroków\n", newton(a, epsilon), iN);
+        rB = bisection(a, b, epsilon);
+        rN = newton(a, epsilon);
+
+        printf("\n   Metoda połowienia:\n   %lf - przybliżone rozwiązanie\n   %i - ilość kroków\n", rB, iB);
+        printf("\n   Metoda Newtona:\n   %lf - przybliżone rozwiązanie\n   %i - ilość kroków\n", rN, iN);
 
         iB = iN = 0;
 
